@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#0078d7</color>
+    <color name="colorPrimaryDark">#090c08</color>
+    <color name="colorAccent">#536DFE</color>
+    <color name="blue_mid_deep">#2962ff</color>
+    <color name="purple_light">#9fa8da</color>
+    <color name="purple_deep">#3949ab</color>
+    <color name="item_semster_colour">#f7f9f9</color>
+    <color name="text_colour">#212121</color>
+    <color name="secondary_text_colour">#757575</color>
+    <color name="second_secondary_color">#424242</color>
+    <color name="beautiful_red">#F82F4A</color>
+    <color name="alert_text_colour">#3f51b5</color>
+    <color name="gradient_start">#00c6ff</color>
+    <color name="gradient_end">#0072ff</color>
+    <color name="login_edit_text_colour">#2E2C2F</color>
+    <color name="login_view_colour">#1b263b</color>
+    <color name="login_deep_colour">#0d1b2a</color>
+    <color name="splash_colour">#1a2e35</color>
+    <color name="facebook_color">#3b5896</color>
+</resources>
