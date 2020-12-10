@@ -4,4 +4,21 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="welcome_back">Field \n Buzz</string>
+
+    <string-array name="options">
+        <item>Graduation Year</item>
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+    </string-array>
+
+    <string-array name="jobNature">
+        <item>Job Nature</item>
+        <item>Mobile</item>
+        <item>Backend</item>
+    </string-array>
+
 </resources>
