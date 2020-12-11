@@ -1,8 +1,14 @@
 package com.team.assignment.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -18,14 +24,42 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.team.assignment.R;
+import com.team.assignment.apicom.RetrofitClient;
 import com.team.assignment.databinding.ActivityMainBinding;
 import com.team.assignment.model.CvData;
+import com.team.assignment.model.PdfUploadResponse;
 import com.team.assignment.utils.ExperienceFilter;
 import com.team.assignment.utils.MyApplication;
 import com.team.assignment.utils.SessionManager;
 import com.team.assignment.viewmodel.LoginActivityViewModel;
 import com.team.assignment.viewmodel.MainActivityViewModel;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,14 +71,16 @@ public class MainActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private MainActivityViewModel mainActivityViewModel;
     private ProgressDialog progressDialog;
-
+    private final int PDF_REQ_CODE = 101;
+    private static final int BUFFER_SIZE = 1024 * 2;
+    private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         init();
         binding.experienceET.setFilters(new InputFilter[]{new ExperienceFilter("0", "100")});
-
+        requestMultiplePermissions();
         mainActivityViewModel.getIsUpdating().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -90,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         binding.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MyApplication.hasNetwork()) {
+                /*if (MyApplication.hasNetwork()) {
                     String nameET = binding.nameET.getText().toString();
                     String emailET = binding.emailET.getText().toString();
                     String phoneET = binding.phoneET.getText().toString();
@@ -181,16 +217,6 @@ public class MainActivity extends AppCompatActivity {
                             binding.gitET.setError("Project URL Can't Be Empty");
                         }
 
-                        /*if (getGraduationYear() == 0) {
-                            binding.gradTV.setError("Select One");
-                        } else {
-
-                        }
-
-                        if (jobNature.equals("Select Job Nature")) {
-                            binding.jobNatureTV.setError("Select One");
-                        }*/
-
                         if (checkSalary(salaryString)) {
                             Log.d("TAG", "onClick: " + checkSalary(salaryString));
                             binding.salaryET.setError("Invaild input");
@@ -200,9 +226,96 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Snackbar.make(binding.getRoot(), "Please check you internet!", Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
-                }
+                }*/
+
             }
         });
+
+        binding.selectPDFBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                chooseFile.setType("application/pdf");
+                chooseFile = Intent.createChooser(chooseFile,"Select CV");
+                startActivityForResult(chooseFile,PDF_REQ_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PDF_REQ_CODE && resultCode == RESULT_OK && data!=null){
+            Uri path = data.getData();
+            Uri uri1 = Uri.parse("file://" + path);
+            File file = new File(uri1.getPath());
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),
+                   file.getAbsolutePath());
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(),
+                    requestFile);
+            //RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), "pdfname");
+            RequestBody fullName =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), "Amit Kundu");
+            /*Uri uri = data.getData();
+            String uriString = uri.toString();
+            File myFile = new File(uriString);
+
+            String path = getFilePathFromURI(MainActivity.this,uri);
+            Log.d("ioooo",path);
+            //uploadPDF(path);
+
+
+
+            //Create a file object using file path
+            File file = new File(path);
+            // Parsing any Media type file*/
+            //RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+            //MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
+           // RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), pdfname);
+
+
+            try {
+
+                Call<PdfUploadResponse> call = RetrofitClient
+                        .getInstance()
+                        .getRetrofitApi()
+                        .uploadPdf("Token " + sessionManager.getToken(),618, body);
+
+                Log.d("TAG", "sendPersonalData: " + call.toString());
+
+                call.enqueue(new Callback<PdfUploadResponse>() {
+                    @Override
+                    public void onResponse(Call<PdfUploadResponse> call, Response<PdfUploadResponse> response) {
+                        try {
+                            if (response.code() == 200) {
+                                PdfUploadResponse cvData = response.body();
+                                Toast.makeText(MainActivity.this, cvData.getMessage(), Toast.LENGTH_SHORT).show();
+                                //liveData.postValue(cvData);
+                            } else {
+                                //Toast.makeText(application, "Please check all the fields", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                            //mIsUpdating.setValue(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            //Toast.makeText(application, "Something Went wrong! Please try again later!", Toast.LENGTH_SHORT).show();
+                            //mIsUpdating.setValue(false);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PdfUploadResponse> call, Throwable t) {
+                        //mIsUpdating.setValue(false);
+                        Log.d("TAG", "onFailure: " + t.getMessage());
+                        //Toast.makeText(application, "Something Went wrong! Please try again later!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                //mIsUpdating.setValue(false);
+                e.printStackTrace();
+            }
+        }
     }
 
     private void init() {
@@ -260,4 +373,113 @@ public class MainActivity extends AppCompatActivity {
     private void hideProgressBar() {
         progressDialog.dismiss();
     }
+
+    public static String getFilePathFromURI(Context context, Uri contentUri) {
+        //copy file and send new file path
+        String fileName = getFileName(contentUri);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+        if (!TextUtils.isEmpty(fileName)) {
+            File copyFile = new File(wallpaperDirectory + File.separator + fileName);
+            // create folder if not exists
+
+            copy(context, contentUri, copyFile);
+            return copyFile.getAbsolutePath();
+        }
+        return null;
+    }
+
+    public static String getFileName(Uri uri) {
+        if (uri == null) return null;
+        String fileName = null;
+        String path = uri.getPath();
+        int cut = path.lastIndexOf('/');
+        if (cut != -1) {
+            fileName = path.substring(cut + 1);
+        }
+        return fileName;
+    }
+
+    public static void copy(Context context, Uri srcUri, File dstFile) {
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
+            if (inputStream == null) return;
+            OutputStream outputStream = new FileOutputStream(dstFile);
+            copystream(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int copystream(InputStream input, OutputStream output) throws Exception, IOException {
+        byte[] buffer = new byte[BUFFER_SIZE];
+
+        BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);
+        BufferedOutputStream out = new BufferedOutputStream(output, BUFFER_SIZE);
+        int count = 0, n = 0;
+        try {
+            while ((n = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
+                out.write(buffer, 0, n);
+                count += n;
+            }
+            out.flush();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                Log.e(e.getMessage(), String.valueOf(e));
+            }
+            try {
+                in.close();
+            } catch (IOException e) {
+                Log.e(e.getMessage(), String.valueOf(e));
+            }
+        }
+        return count;
+    }
+
+    private void  requestMultiplePermissions(){
+        Dexter.withActivity(this)
+                .withPermissions(
+
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
 }
