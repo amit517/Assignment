@@ -59,9 +59,9 @@ public class UpdateInfoRepository {
                             CvData cvData = response.body();
                             liveData.postValue(cvData);
                         } else {
+                            mIsUpdating.setValue(false);
                             Toast.makeText(application, "Please check all the fields", Toast.LENGTH_SHORT).show();
                         }
-                       // mIsUpdating.setValue(false);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(application, "Something Went wrong! Please try again later!", Toast.LENGTH_SHORT).show();

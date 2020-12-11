@@ -150,19 +150,22 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
                         }
+                        Log.d("TAG", "onNextButtonClicked: "+paramObject);
                         mainActivityViewModel.sendPersonalData(paramObject).observe(MainActivity.this, new Observer<CvData>() {
                             @Override
                             public void onChanged(CvData cvData) {
-                                mainActivityViewModel.sendUploadPdf(file, cvData.getCvFile().getId()).observe(MainActivity.this, new Observer<PdfUploadResponse>() {
-                                    @Override
-                                    public void onChanged(PdfUploadResponse pdfUploadResponse) {
-                                        if (pdfUploadResponse.getSuccess()){
-                                            Snackbar.make(binding.getRoot(), "Successfully submitted", Snackbar.LENGTH_SHORT)
-                                                    .setAction("Action", null).show();
-                                            clearFields();
+                                if (cvData.getSuccess()){
+                                    mainActivityViewModel.sendUploadPdf(file, cvData.getCvFile().getId()).observe(MainActivity.this, new Observer<PdfUploadResponse>() {
+                                        @Override
+                                        public void onChanged(PdfUploadResponse pdfUploadResponse) {
+                                            if (pdfUploadResponse.getSuccess()) {
+                                                Snackbar.make(binding.getRoot(), "Successfully submitted", Snackbar.LENGTH_SHORT)
+                                                        .setAction("Action", null).show();
+                                                clearFields();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
                         });
 

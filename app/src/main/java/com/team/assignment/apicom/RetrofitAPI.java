@@ -24,7 +24,7 @@ public interface RetrofitAPI {
     Call<LoginResponse> getUser(@Body JsonObject jsonObject);
 
     @Headers("Content-Type: application/json")
-    @POST("v0/recruiting-entities/")
+    @POST("v1/recruiting-entities/")
     Call<CvData> sendBasicInfo(@Header("Authorization") String header,
                                @Body JsonObject jsonObject);
 
