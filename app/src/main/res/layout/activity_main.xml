@@ -7,7 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".view.MainActivity">
+        tools:context=".view.MainActivity"
+        android:background="@color/rv_bg_colour"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +25,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,7 +63,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,7 +101,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,7 +139,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -174,7 +176,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -211,7 +213,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -246,7 +248,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -282,7 +284,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -318,7 +320,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -356,7 +358,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -391,7 +393,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -429,7 +431,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -467,7 +469,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 >
 
                 <LinearLayout
@@ -499,34 +501,46 @@
             </androidx.cardview.widget.CardView>
 
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
                 >
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Not Selected"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:id="@+id/selectedFileNameTV"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:text="SELECT PDF"
-                    android:id="@+id/selectPDFBtn"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Not Selected"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:id="@+id/selectedFileNameTV"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:text="SELECT PDF"
+                        android:id="@+id/selectPDFBtn"/>
 
 
-            </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:layout_marginTop="16dp"
@@ -536,6 +550,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit"
+                app:backgroundTint="#13A10D"
                 android:id="@+id/next"/>
 
         </LinearLayout>

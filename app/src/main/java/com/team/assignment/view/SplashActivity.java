@@ -16,7 +16,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //binding = DataBindingUtil.setContentView(this,R.layout.activity_splash);
         sessionManager = new SessionManager(this);
         if (sessionManager.getIsLogedIn()) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class)

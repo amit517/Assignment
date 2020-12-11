@@ -2,15 +2,12 @@ package com.team.assignment.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -30,12 +27,9 @@ import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.team.assignment.R;
-import com.team.assignment.apicom.RetrofitClient;
 import com.team.assignment.databinding.ActivityMainBinding;
 import com.team.assignment.model.CvData;
 import com.team.assignment.model.PdfUploadResponse;
@@ -43,28 +37,12 @@ import com.team.assignment.utils.ExperienceFilter;
 import com.team.assignment.utils.FileUtil;
 import com.team.assignment.utils.MyApplication;
 import com.team.assignment.utils.SessionManager;
-import com.team.assignment.viewmodel.LoginActivityViewModel;
 import com.team.assignment.viewmodel.MainActivityViewModel;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,7 +65,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         init();
+        setSpinnerValue();
         binding.experienceET.setFilters(new InputFilter[]{new ExperienceFilter("0", "100")});
+
+        binding.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onNextButtonClicked();
+            }
+        });
+
+        binding.selectPDFBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestMultiplePermissions();
+            }
+        });
 
         mainActivityViewModel.getIsUpdating().observe(this, new Observer<Boolean>() {
             @Override
@@ -99,7 +92,146 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void onNextButtonClicked() {
+        if (MyApplication.hasNetwork()) {
+            if (isSizeOk) {
+                String nameET = binding.nameET.getText().toString();
+                String emailET = binding.emailET.getText().toString();
+                String phoneET = binding.phoneET.getText().toString();
+                String addressET = binding.addressET.getText().toString();
+                String universityET = binding.universityET.getText().toString();
+                String workPlaceET = binding.workPlaceET.getText().toString();
+                String referenceET = binding.referenceET.getText().toString();
+                String gitET = binding.gitET.getText().toString();
+                String salaryString = binding.salaryET.getText().toString();
+
+                if (checkField(nameET, emailET, phoneET, universityET, gitET, salaryString)) {
+
+                    if (!binding.cgpaET.getText().toString().isEmpty()) {
+                        if (checkCGPA(binding.cgpaET.getText().toString())) {
+                            cgpa = Double.parseDouble(binding.cgpaET.getText().toString());
+                        } else {
+                            binding.cgpaET.setError("CGPA not in range");
+                            return;
+                        }
+                    }
+                    if (!binding.experienceET.getText().toString().isEmpty()) {
+                        experience = Integer.parseInt(binding.experienceET.getText().toString());
+                    }
+
+                    try {
+                        JsonObject paramObject = new JsonObject();
+                        paramObject.addProperty("tsync_id", sessionManager.getToken());
+                        paramObject.addProperty("name", nameET);
+                        paramObject.addProperty("email", emailET);
+                        paramObject.addProperty("phone", phoneET);
+                        paramObject.addProperty("full_address", addressET);
+                        paramObject.addProperty("name_of_university", universityET);
+                        paramObject.addProperty("graduation_year", graduationYear);
+                        paramObject.addProperty("cgpa", cgpa);
+                        paramObject.addProperty("experience_in_months", experience);
+                        paramObject.addProperty("current_work_place_name", workPlaceET);
+                        paramObject.addProperty("applying_in", jobNature);
+                        paramObject.addProperty("expected_salary", salary);
+                        paramObject.addProperty("field_buzz_reference", referenceET);
+                        paramObject.addProperty("github_project_url", gitET);
+                        JsonObject innerObject = new JsonObject();
+                        innerObject.addProperty("tsync_id", sessionManager.getToken());
+                        paramObject.add("cv_file", innerObject);
+                        paramObject.addProperty("on_spot_update_time", System.currentTimeMillis() / 1000L);
+
+                        if (!sessionManager.getHasUpdated()) {
+                            sessionManager.setHasUpdated(true);
+                            long unixTime = System.currentTimeMillis() / 1000L;
+                            sessionManager.setSpotCreationTime(unixTime);
+                            paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
+                        } else {
+                            paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
+                        }
+                        mainActivityViewModel.sendPersonalData(paramObject).observe(MainActivity.this, new Observer<CvData>() {
+                            @Override
+                            public void onChanged(CvData cvData) {
+                                mainActivityViewModel.sendUploadPdf(file, cvData.getCvFile().getId()).observe(MainActivity.this, new Observer<PdfUploadResponse>() {
+                                    @Override
+                                    public void onChanged(PdfUploadResponse pdfUploadResponse) {
+                                        if (pdfUploadResponse.getSuccess()){
+                                            Snackbar.make(binding.getRoot(), "Successfully submitted", Snackbar.LENGTH_SHORT)
+                                                    .setAction("Action", null).show();
+                                            clearFields();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        //  Block of code to handle errors
+                    }
+
+                } else {
+                    Snackbar.make(binding.getRoot(), "Please check all the mandatory fields and try again!", Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+
+                    if (nameET.isEmpty()) {
+                        binding.nameET.setError("Name Can't Be Empty");
+                    }
+
+                    if (emailET.isEmpty()) {
+                        binding.emailET.setError("Email Can't Be Empty");
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(emailET).matches()) {
+                        binding.emailET.setError("Invalid email address");
+                    }
+
+                    if (phoneET.isEmpty()) {
+                        binding.phoneET.setError("Phone Number Can't Be Empty");
+                    }
+
+                    if (universityET.isEmpty()) {
+                        binding.universityET.setError("University Can't Be Empty");
+                    }
+
+                    if (gitET.isEmpty()) {
+                        binding.gitET.setError("Project URL Can't Be Empty");
+                    }
+
+                    if (checkSalary(salaryString)) {
+                        Log.d("TAG", "onClick: " + checkSalary(salaryString));
+                        binding.salaryET.setError("Invalid input");
+                    }
+                }
+            } else {
+                Snackbar.make(binding.getRoot(), "Please select a valid pdf to proceed", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+
+        } else {
+            Snackbar.make(binding.getRoot(), "Please check you internet!", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
+    }
+
+    private void clearFields() {
+        binding.nameET.setText("");
+        binding.emailET.setText("");
+        binding.phoneET.setText("");
+        binding.addressET.setText("");
+        binding.universityET.setText("");
+        binding.cgpaET.setText("");
+        binding.experienceET.setText("");
+        binding.workPlaceET.setText("");
+        binding.salaryET.setText("");
+        binding.referenceET.setText("");
+        binding.gitET.setText("");
+        binding.gradYearSpinner.setSelection(0);
+        binding.jobNatureSpinner.setSelection(0);
+        binding.selectedFileNameTV.setText("Not Selected");
+        file = null;
+        isSizeOk = false;
+    }
+
+    private void setSpinnerValue() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.options, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,10 +247,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+        adapter = ArrayAdapter.createFromResource(this,
                 R.array.jobNature, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.jobNatureSpinner.setAdapter(adapter2);
+        binding.jobNatureSpinner.setAdapter(adapter);
         binding.jobNatureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -128,132 +260,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-
-        binding.next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (MyApplication.hasNetwork()) {
-                    if (isSizeOk){
-                        String nameET = binding.nameET.getText().toString();
-                        String emailET = binding.emailET.getText().toString();
-                        String phoneET = binding.phoneET.getText().toString();
-                        String addressET = binding.addressET.getText().toString();
-                        String universityET = binding.universityET.getText().toString();
-                        String workPlaceET = binding.workPlaceET.getText().toString();
-                        String referenceET = binding.referenceET.getText().toString();
-                        String gitET = binding.gitET.getText().toString();
-                        String salaryString = binding.salaryET.getText().toString();
-
-                        if (checkField(nameET, emailET, phoneET, universityET, gitET, salaryString)) {
-
-                            if (!binding.cgpaET.getText().toString().isEmpty()) {
-                                if (checkCGPA(binding.cgpaET.getText().toString())) {
-                                    cgpa = Double.parseDouble(binding.cgpaET.getText().toString());
-                                } else {
-                                    binding.cgpaET.setError("CGPA not in range");
-                                    return;
-                                }
-                            }
-                            if (!binding.experienceET.getText().toString().isEmpty()) {
-                                experience = Integer.parseInt(binding.experienceET.getText().toString());
-                            }
-
-                            try {
-                                JsonObject paramObject = new JsonObject();
-                                paramObject.addProperty("tsync_id", sessionManager.getToken());
-                                paramObject.addProperty("name", nameET);
-                                paramObject.addProperty("email", emailET);
-                                paramObject.addProperty("phone", phoneET);
-                                paramObject.addProperty("full_address", addressET);
-                                paramObject.addProperty("name_of_university", universityET);
-                                paramObject.addProperty("graduation_year", graduationYear);
-                                paramObject.addProperty("cgpa", cgpa);
-                                paramObject.addProperty("experience_in_months", experience);
-                                paramObject.addProperty("current_work_place_name", workPlaceET);
-                                paramObject.addProperty("applying_in", jobNature);
-                                paramObject.addProperty("expected_salary", salary);
-                                paramObject.addProperty("field_buzz_reference", referenceET);
-                                paramObject.addProperty("github_project_url", gitET);
-                                JsonObject innerObject = new JsonObject();
-                                innerObject.addProperty("tsync_id", sessionManager.getToken());
-                                paramObject.add("cv_file", innerObject);
-                                paramObject.addProperty("on_spot_update_time", System.currentTimeMillis() / 1000L);
-
-                                if (!sessionManager.getHasUpdated()) {
-                                    sessionManager.setHasUpdated(true);
-                                    long unixTime = System.currentTimeMillis() / 1000L;
-                                    sessionManager.setSpotCreationTime(unixTime);
-                                    paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
-                                } else {
-                                    paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
-                                }
-                                mainActivityViewModel.sendPersonalData(paramObject).observe(MainActivity.this, new Observer<CvData>() {
-                                    @Override
-                                    public void onChanged(CvData cvData) {
-                                        mainActivityViewModel.sendUploadPdf(file,cvData.getCvFile().getId()).observe(MainActivity.this, new Observer<PdfUploadResponse>() {
-                                            @Override
-                                            public void onChanged(PdfUploadResponse pdfUploadResponse) {
-                                                Snackbar.make(binding.getRoot(), pdfUploadResponse.getMessage(), Snackbar.LENGTH_SHORT)
-                                                        .setAction("Action", null).show();
-                                            }
-                                        });
-                                    }
-                                });
-
-                            } catch (Exception e) {
-                                //  Block of code to handle errors
-                            }
-
-                        } else {
-                            Snackbar.make(binding.getRoot(), "Please check all the mandatory fields and try again!", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
-
-                            if (nameET.isEmpty()) {
-                                binding.nameET.setError("Name Can't Be Empty");
-                            }
-
-                            if (emailET.isEmpty()) {
-                                binding.emailET.setError("Email Can't Be Empty");
-                            } else if (!Patterns.EMAIL_ADDRESS.matcher(emailET).matches()) {
-                                binding.emailET.setError("Invalid email address");
-                            }
-
-                            if (phoneET.isEmpty()) {
-                                binding.phoneET.setError("Phone Number Can't Be Empty");
-                            }
-
-                            if (universityET.isEmpty()) {
-                                binding.universityET.setError("University Can't Be Empty");
-                            }
-
-                            if (gitET.isEmpty()) {
-                                binding.gitET.setError("Project URL Can't Be Empty");
-                            }
-
-                            if (checkSalary(salaryString)) {
-                                Log.d("TAG", "onClick: " + checkSalary(salaryString));
-                                binding.salaryET.setError("Invaild input");
-                            }
-                        }
-                    }else {
-                        Snackbar.make(binding.getRoot(), "Please select a valid pdf to proceed", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null).show();
-                    }
-
-                } else {
-                    Snackbar.make(binding.getRoot(), "Please check you internet!", Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null).show();
-                }
-
-            }
-        });
-
-        binding.selectPDFBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestMultiplePermissions();
             }
         });
     }
@@ -380,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
                         openSettings();
                     }
                 })
-
                 .setCancelable(false)
                 .show();
     }
@@ -392,4 +397,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, PERMISSION_REQUEST_CODE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

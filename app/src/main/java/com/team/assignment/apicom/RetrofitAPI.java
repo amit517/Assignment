@@ -28,8 +28,6 @@ public interface RetrofitAPI {
     Call<CvData> sendBasicInfo(@Header("Authorization") String header,
                                @Body JsonObject jsonObject);
 
-    //Content Type not specified
-
     @Multipart
     @PUT("file-object/{file_token}/")
     Call<PdfUploadResponse> uploadPdf(@Header("Authorization") String header,

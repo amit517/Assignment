@@ -41,27 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                if (MyApplication.hasNetwork()) {
-                    String email = binding.etUserId.getText().toString();
-                    String password = binding.etPassword.getText().toString();
-                    if (checkField(email, password)) {
-                        signInWithEmailPassword(email, password);
-                    } else {
-                        if (email.isEmpty()) {
-                            binding.etUserId.setError("Email Can't Be Empty");
-                        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                            binding.etUserId.setError("Invalid email address");
-                        }
-                        if (password.isEmpty()) {
-                            binding.etPassword.setError("Password Can't Be empty");
-                        } else if (password.length() <= 5) {
-                            binding.etPassword.setError("Minimum Password Length 6 digit");
-                        }
-                    }
-                } else {
-                    Snackbar.make(binding.getRoot(), "Please check you internet!", Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null).show();
-                }
+                onLoginButtonClicked();
             }
         });
 
@@ -75,6 +55,30 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void onLoginButtonClicked() {
+        if (MyApplication.hasNetwork()) {
+            String email = binding.etUserId.getText().toString();
+            String password = binding.etPassword.getText().toString();
+            if (checkField(email, password)) {
+                signInWithEmailPassword(email, password);
+            } else {
+                if (email.isEmpty()) {
+                    binding.etUserId.setError("Email Can't Be Empty");
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.etUserId.setError("Invalid email address");
+                }
+                if (password.isEmpty()) {
+                    binding.etPassword.setError("Password Can't Be empty");
+                } else if (password.length() <= 5) {
+                    binding.etPassword.setError("Minimum Password Length 6 digit");
+                }
+            }
+        } else {
+            Snackbar.make(binding.getRoot(), "Please check you internet!", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
     }
 
     private void init() {
@@ -119,5 +123,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void hideProgressBar() {
         progressDialog.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
