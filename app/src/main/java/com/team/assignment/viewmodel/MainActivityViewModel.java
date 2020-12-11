@@ -10,8 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.JsonObject;
 import com.team.assignment.model.CvData;
 import com.team.assignment.model.LoginResponse;
+import com.team.assignment.model.PdfUploadResponse;
 import com.team.assignment.repository.LoginRepository;
 import com.team.assignment.repository.UpdateInfoRepository;
+
+import java.io.File;
 
 /**
  * Created by Amit on 10,December,2020
@@ -31,5 +34,9 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public MutableLiveData<CvData> sendPersonalData(JsonObject paramObject) {
         return mRepo.sendPersonalData(paramObject);
+    }
+
+    public MutableLiveData<PdfUploadResponse> sendUploadPdf(File file,int fileToken){
+        return mRepo.uploadPDF(file,fileToken);
     }
 }

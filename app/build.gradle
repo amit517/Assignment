@@ -49,5 +49,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.karumi:dexter:6.2.1'
 }
