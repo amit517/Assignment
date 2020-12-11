@@ -54,10 +54,10 @@ public class CvData {
     private CvFile cvFile;
     @SerializedName("on_spot_update_time")
     @Expose
-    private Integer onSpotUpdateTime;
+    private long onSpotUpdateTime;
     @SerializedName("on_spot_creation_time")
     @Expose
-    private Integer onSpotCreationTime;
+    private long onSpotCreationTime;
     @SerializedName("success")
     @Expose
     private Boolean success;
@@ -94,7 +94,7 @@ public class CvData {
      * @param email
      * @param cvFile
      */
-    public CvData(String tsyncId, String name, String email, String phone, String fullAddress, String nameOfUniversity, Integer graduationYear, Float cgpa, Integer experienceInMonths, String currentWorkPlaceName, String applyingIn, Integer expectedSalary, String fieldBuzzReference, String githubProjectUrl, CvFile cvFile, Integer onSpotUpdateTime, Integer onSpotCreationTime, Boolean success, String message) {
+    public CvData(String tsyncId, String name, String email, String phone, String fullAddress, String nameOfUniversity, Integer graduationYear, Float cgpa, Integer experienceInMonths, String currentWorkPlaceName, String applyingIn, Integer expectedSalary, String fieldBuzzReference, String githubProjectUrl, CvFile cvFile, long onSpotUpdateTime, long onSpotCreationTime, Boolean success, String message) {
         super();
         this.tsyncId = tsyncId;
         this.name = name;
@@ -237,7 +237,7 @@ public class CvData {
         this.cvFile = cvFile;
     }
 
-    public Integer getOnSpotUpdateTime() {
+    public long getOnSpotUpdateTime() {
         return onSpotUpdateTime;
     }
 
@@ -245,7 +245,7 @@ public class CvData {
         this.onSpotUpdateTime = onSpotUpdateTime;
     }
 
-    public Integer getOnSpotCreationTime() {
+    public long getOnSpotCreationTime() {
         return onSpotCreationTime;
     }
 

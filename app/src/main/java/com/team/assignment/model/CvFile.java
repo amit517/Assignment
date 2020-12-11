@@ -32,10 +32,10 @@ public class CvFile {
     private Object file;
     @SerializedName("date_created")
     @Expose
-    private Integer dateCreated;
+    private long dateCreated;
     @SerializedName("last_updated")
     @Expose
-    private Integer lastUpdated;
+    private long lastUpdated;
 
     /**
      * No args constructor for use in serialization
@@ -57,7 +57,7 @@ public class CvFile {
      * @param description
      * @param id
      */
-    public CvFile(Integer id, String tsyncId, String code, String name, String path, Object extension, Object description, Object file, Integer dateCreated, Integer lastUpdated) {
+    public CvFile(Integer id, String tsyncId, String code, String name, String path, Object extension, Object description, Object file, long dateCreated, long lastUpdated) {
         super();
         this.id = id;
         this.tsyncId = tsyncId;
@@ -135,7 +135,7 @@ public class CvFile {
         this.file = file;
     }
 
-    public Integer getDateCreated() {
+    public long getDateCreated() {
         return dateCreated;
     }
 
@@ -143,7 +143,7 @@ public class CvFile {
         this.dateCreated = dateCreated;
     }
 
-    public Integer getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 

@@ -223,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text="Graduation Year"
+                        android:id="@+id/gradTV"
                         android:textColor="@color/black_alfa_70"
                         android:textSize="15sp" />
 
@@ -266,7 +267,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="-5dp"
                         android:layout_marginTop="4dp"
-                        android:hint="Enter CGPA"
+                        android:hint="Enter CGPA between 2.00 - 4.00"
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:padding="10dp" />
@@ -330,7 +331,8 @@
                         android:padding="5dp"
                         android:text="Work Place"
                         android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        />
 
                     <EditText
                         android:id="@+id/workPlaceET"
@@ -367,7 +369,8 @@
                         android:padding="5dp"
                         android:text="Applying In"
                         android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:id="@+id/jobNatureTV"/>
 
                     <Spinner
                         android:id="@+id/jobNatureSpinner"
@@ -401,7 +404,9 @@
                         android:padding="5dp"
                         android:text="Expected Salary"
                         android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+
+                        />
 
                     <EditText
                         android:id="@+id/salaryET"
@@ -409,7 +414,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="-5dp"
                         android:layout_marginTop="4dp"
-                        android:hint="Enter Experience"
+                        android:hint="Between 15000 - 60000"
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:padding="10dp" />
