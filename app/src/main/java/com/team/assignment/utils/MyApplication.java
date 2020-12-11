@@ -14,18 +14,20 @@ import android.util.Log;
  */
 public class MyApplication extends Application {
     private static MyApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        if(instance == null){
+        if (instance == null) {
             instance = this;
         }
     }
 
-    public static boolean hasNetwork(){
+    public static boolean hasNetwork() {
         return instance.isNetworkConnected();
     }
-    private boolean isNetworkConnected(){
+
+    private boolean isNetworkConnected() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -38,13 +40,11 @@ public class MyApplication extends Application {
                         return true;
                     } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                         return true;
-                    }  else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)){
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                         return true;
                     }
                 }
-            }
-
-            else {
+            } else {
 
                 try {
                     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -57,7 +57,7 @@ public class MyApplication extends Application {
                 }
             }
         }
-        Log.i("update_statut","Network is available : FALSE ");
+        Log.i("update_statut", "Network is available : FALSE ");
         return false;
     }
 }

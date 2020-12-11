@@ -17,16 +17,16 @@ public class LoginActivityViewModel extends AndroidViewModel {
 
     private LoginRepository mRepo;
 
-    public LoginActivityViewModel (@NonNull Application application){
+    public LoginActivityViewModel(@NonNull Application application) {
         super(application);
         mRepo = new LoginRepository(application);
     }
 
-    public LiveData<Boolean> getIsUpdating(){
+    public LiveData<Boolean> getIsUpdating() {
         return mRepo.getIsUpdating();
     }
 
-    public MutableLiveData<LoginResponse> makeMyLogin(String email, String password){
-        return mRepo.makeMyLogin(email,password);
+    public MutableLiveData<LoginResponse> makeMyLogin(String email, String password) {
+        return mRepo.makeMyLogin(email, password);
     }
 }

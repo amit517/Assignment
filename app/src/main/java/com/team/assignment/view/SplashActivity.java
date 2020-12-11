@@ -12,6 +12,7 @@ import com.team.assignment.utils.SessionManager;
 
 public class SplashActivity extends AppCompatActivity {
     private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +22,8 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, MainActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
-        else {
-            startActivity(new Intent(SplashActivity.this,LoginActivity.class)
+        } else {
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }

@@ -16,20 +16,20 @@ import com.team.assignment.repository.UpdateInfoRepository;
 /**
  * Created by Amit on 10,December,2020
  */
-public class MainActivityViewModel  extends AndroidViewModel {
+public class MainActivityViewModel extends AndroidViewModel {
 
     private UpdateInfoRepository mRepo;
 
-    public MainActivityViewModel (@NonNull Application application){
+    public MainActivityViewModel(@NonNull Application application) {
         super(application);
         mRepo = new UpdateInfoRepository(application);
     }
 
-    public LiveData<Boolean> getIsUpdating(){
+    public LiveData<Boolean> getIsUpdating() {
         return mRepo.getIsUpdating();
     }
 
-    public MutableLiveData<CvData> sendPersonalData(JsonObject paramObject){
+    public MutableLiveData<CvData> sendPersonalData(JsonObject paramObject) {
         return mRepo.sendPersonalData(paramObject);
     }
 }

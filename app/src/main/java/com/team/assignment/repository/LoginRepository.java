@@ -23,11 +23,12 @@ public class LoginRepository {
     private Application application;
     private MutableLiveData<Boolean> mIsUpdating = new MutableLiveData<>();
     private static final String TAG = "LoginRepository";
+
     public LoginRepository(Application application) {
         this.application = application;
     }
 
-    public MutableLiveData<LoginResponse> makeMyLogin(String email, String password){
+    public MutableLiveData<LoginResponse> makeMyLogin(String email, String password) {
         mIsUpdating.setValue(true);
         MutableLiveData<LoginResponse> liveData = new MutableLiveData<>();
         try {
@@ -42,16 +43,15 @@ public class LoginRepository {
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    try{
-                        if(response.code() == 200){
+                    try {
+                        if (response.code() == 200) {
                             LoginResponse loginResponse = response.body();
-                            Log.d(TAG, "onResponse: "+loginResponse);
                             liveData.postValue(loginResponse);
-                        }else if (response.code() == 400){
+                        } else if (response.code() == 400) {
                             Toast.makeText(application, "Password is incorrect for provided username.", Toast.LENGTH_SHORT).show();
                         }
                         mIsUpdating.setValue(false);
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(application, "Something Went wrong! Please try again later!", Toast.LENGTH_SHORT).show();
                         mIsUpdating.setValue(false);
@@ -72,7 +72,7 @@ public class LoginRepository {
         return liveData;
     }
 
-    public MutableLiveData<Boolean> getIsUpdating(){
+    public MutableLiveData<Boolean> getIsUpdating() {
         return mIsUpdating;
     }
 }

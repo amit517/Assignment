@@ -3,6 +3,7 @@ package com.team.assignment.apicom;
 import com.google.gson.JsonObject;
 import com.team.assignment.model.CvData;
 import com.team.assignment.model.LoginResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -17,7 +18,7 @@ public interface RetrofitAPI {
 
     @Headers("Content-Type: application/json")
     @POST("v0/recruiting-entities/")
-    Call<CvData> sendBasicInfo(@Header ("Authorization") String header,
+    Call<CvData> sendBasicInfo(@Header("Authorization") String header,
                                @Body JsonObject jsonObject);
 
 }

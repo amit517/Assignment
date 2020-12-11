@@ -19,8 +19,8 @@ public class SessionManager {
     private static final String Pref_Name = "demoCvPoject";
     private static final String token = "token";
     private static final String isLogedIn = "isLogedIn";
-    private static String  spotCreationTime = "spotCreationTime";
-    private static String  isFirstTime = "isFirstTime";
+    private static String spotCreationTime = "spotCreationTime";
+    private static String isFirstTime = "isFirstTime";
 
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
@@ -36,7 +36,7 @@ public class SessionManager {
     }
 
     public String getToken() {
-        return sharedPreferences.getString(token," ");
+        return sharedPreferences.getString(token, " ");
     }
 
     public void setIsLogedIn(boolean code) {
@@ -60,7 +60,7 @@ public class SessionManager {
     }
 
     public long getSpotCreationTime() {
-        return sharedPreferences.getLong(spotCreationTime,0);
+        return sharedPreferences.getLong(spotCreationTime, 0);
     }
 
 }
