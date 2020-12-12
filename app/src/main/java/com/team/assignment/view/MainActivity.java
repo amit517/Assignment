@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         paramObject.addProperty("phone", phoneET);
                         paramObject.addProperty("full_address", addressET);
                         paramObject.addProperty("name_of_university", universityET);
-                        paramObject.addProperty("graduation_year", graduationYear);
+                        paramObject.addProperty("graduation_year", Integer.parseInt(graduationYear));
                         paramObject.addProperty("cgpa", cgpa);
                         paramObject.addProperty("experience_in_months", experience);
                         paramObject.addProperty("current_work_place_name", workPlaceET);
@@ -150,11 +150,11 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             paramObject.addProperty("on_spot_creation_time", sessionManager.getSpotCreationTime());
                         }
-                        Log.d("TAG", "onNextButtonClicked: "+paramObject);
+                        Log.d("TAG", "onNextButtonClicked: " + paramObject);
                         mainActivityViewModel.sendPersonalData(paramObject).observe(MainActivity.this, new Observer<CvData>() {
                             @Override
                             public void onChanged(CvData cvData) {
-                                if (cvData.getSuccess()){
+                                if (cvData.getSuccess()) {
                                     mainActivityViewModel.sendUploadPdf(file, cvData.getCvFile().getId()).observe(MainActivity.this, new Observer<PdfUploadResponse>() {
                                         @Override
                                         public void onChanged(PdfUploadResponse pdfUploadResponse) {
@@ -178,30 +178,38 @@ public class MainActivity extends AppCompatActivity {
                             .setAction("Action", null).show();
 
                     if (nameET.isEmpty()) {
-                        binding.nameET.setError("Name Can't Be Empty");
+                        binding.nameET.setError("Name can't be empty");
                     }
 
                     if (emailET.isEmpty()) {
-                        binding.emailET.setError("Email Can't Be Empty");
+                        binding.emailET.setError("Email can't be empty");
                     } else if (!Patterns.EMAIL_ADDRESS.matcher(emailET).matches()) {
                         binding.emailET.setError("Invalid email address");
                     }
 
                     if (phoneET.isEmpty()) {
-                        binding.phoneET.setError("Phone Number Can't Be Empty");
+                        binding.phoneET.setError("Phone number can't be empty");
                     }
 
                     if (universityET.isEmpty()) {
-                        binding.universityET.setError("University Can't Be Empty");
+                        binding.universityET.setError("University can't be empty");
                     }
 
                     if (gitET.isEmpty()) {
-                        binding.gitET.setError("Project URL Can't Be Empty");
+                        binding.gitET.setError("Project url can't be empty");
                     }
 
                     if (checkSalary(salaryString)) {
                         Log.d("TAG", "onClick: " + checkSalary(salaryString));
                         binding.salaryET.setError("Invalid input");
+                    }
+
+                    if (getGraduationYear() == 0) {
+                        binding.gradYearSpinner.setError("Must select one");
+                    }
+
+                    if (jobNature.equals("Select Job Nature")) {
+                        binding.jobNatureSpinner.setError("Select a type");
                     }
                 }
             } else {
@@ -239,30 +247,24 @@ public class MainActivity extends AppCompatActivity {
                 R.array.options, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.gradYearSpinner.setAdapter(adapter);
-        binding.gradYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.gradYearSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                graduationYear = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                graduationYear = getResources().getStringArray(R.array.options)[i];
+                binding.gradYearSpinner.setError(null);
+                Log.d("TAG", "onItemClick: " + graduationYear);
             }
         });
-
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.jobNature, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.jobNatureSpinner.setAdapter(adapter);
-        binding.jobNatureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.jobNatureSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                jobNature = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                jobNature = getResources().getStringArray(R.array.jobNature)[i];
+                binding.jobNatureSpinner.setError(null);
+                Log.d("TAG", "onItemClick: " + jobNature);
             }
         });
     }

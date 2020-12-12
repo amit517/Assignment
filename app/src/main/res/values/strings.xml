@@ -6,7 +6,6 @@
     <string name="welcome_back">Field \n Buzz</string>
 
     <string-array name="options">
-        <item>Select Graduation Year</item>
         <item>2020</item>
         <item>2019</item>
         <item>2018</item>
@@ -16,7 +15,6 @@
     </string-array>
 
     <string-array name="jobNature">
-        <item>Select Job Nature</item>
         <item>Mobile</item>
         <item>Backend</item>
     </string-array>

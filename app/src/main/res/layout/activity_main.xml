@@ -6,552 +6,308 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".view.MainActivity"
         android:background="@color/rv_bg_colour"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        android:scrollbars="none"
+        tools:context=".view.MainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:maxLength="256" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Name"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/nameET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Name"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
-                        android:maxLength="256"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="256" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Email"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/emailET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Email"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLength="256"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Phone"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
+                    android:hint="Phone Number"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:maxLength="14" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/phoneET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Phone Number"
-                        android:imeOptions="actionNext"
-                        android:inputType="phone"
-                        android:maxLength="14"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addressET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Full Address"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="512" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Address"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/addressET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Full Address"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLength="512"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/universityET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="University Name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="256" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="University"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/universityET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter University Name"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLength="256"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:hint="Graduation Year">
 
-                <LinearLayout
+                <AutoCompleteTextView
+                    android:id="@+id/gradYearSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:entries="@array/options"
+                    android:inputType="none" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Graduation Year"
-                        android:id="@+id/gradTV"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <Spinner
-                        android:id="@+id/gradYearSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:entries="@array/options" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cgpaET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="CGPA between 2.00 - 4.00"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Cgpa"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/cgpaET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter CGPA between 2.00 - 4.00"
-                        android:imeOptions="actionNext"
-                        android:inputType="numberDecimal"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/experienceET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Experience"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Experience"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/experienceET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Experience"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/workPlaceET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Current Work Place"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="256" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Work Place"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp"
-                        />
-
-                    <EditText
-                        android:id="@+id/workPlaceET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Current Work Place"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLength="256"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:hint="Applying In">
 
-                <LinearLayout
+                <AutoCompleteTextView
+                    android:id="@+id/jobNatureSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:entries="@array/jobNature"
+                    android:inputType="none" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Applying In"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp"
-                        android:id="@+id/jobNatureTV"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <Spinner
-                        android:id="@+id/jobNatureSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:entries="@array/jobNature" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/salaryET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Expected Salary"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp"
+                    android:hint="Expected Salary"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        />
-
-                    <EditText
-                        android:id="@+id/salaryET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Between 15000 - 60000"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/referenceET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:hint="Field Buzz Reference"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="256" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Reference"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/referenceET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Field Buzz Reference"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLength="256"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp"
-                >
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@color/purple_500">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gitET"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+                    android:layout_height="wrap_content"
+                    android:hint="Github Project Url"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLength="512" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Github Project Url"
-                        android:textColor="@color/black_alfa_70"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/gitET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginTop="4dp"
-                        android:hint="Enter Github Project Url"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:maxLength="512"
-                        android:padding="10dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-
                 app:cardCornerRadius="4dp"
-                app:cardElevation="2dp"
-                >
+                app:cardElevation="2dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    >
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/selectedFileNameTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Not Selected"
                         android:gravity="center"
-                        android:textSize="16sp"
-                        android:id="@+id/selectedFileNameTV"/>
+                        android:text="Not Selected"
+                        android:textSize="16sp" />
 
                     <Button
+                        android:id="@+id/selectPDFBtn"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:text="SELECT PDF"
-                        android:id="@+id/selectPDFBtn"/>
-
+                        android:text="SELECT PDF" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:id="@+id/next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="Submit"
-                app:backgroundTint="#13A10D"
-                android:id="@+id/next"/>
+                app:backgroundTint="#13A10D" />
 
         </LinearLayout>
     </ScrollView>
