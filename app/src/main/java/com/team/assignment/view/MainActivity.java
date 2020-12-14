@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String graduationYear = "Select Graduation Year";
     private String jobNature = "Select Job Nature";
-    private double cgpa;
-    private int experience, salary;
+    private int  salary;
     private SessionManager sessionManager;
     private MainActivityViewModel mainActivityViewModel;
     private ProgressDialog progressDialog;
@@ -100,26 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 String nameET = binding.nameET.getText().toString();
                 String emailET = binding.emailET.getText().toString();
                 String phoneET = binding.phoneET.getText().toString();
-                String addressET = binding.addressET.getText().toString();
                 String universityET = binding.universityET.getText().toString();
-                String workPlaceET = binding.workPlaceET.getText().toString();
-                String referenceET = binding.referenceET.getText().toString();
                 String gitET = binding.gitET.getText().toString();
                 String salaryString = binding.salaryET.getText().toString();
 
                 if (checkField(nameET, emailET, phoneET, universityET, gitET, salaryString)) {
 
-                    if (!binding.cgpaET.getText().toString().isEmpty()) {
-                        if (checkCGPA(binding.cgpaET.getText().toString())) {
-                            cgpa = Double.parseDouble(binding.cgpaET.getText().toString());
-                        } else {
-                            binding.cgpaET.setError("CGPA not in range");
-                            return;
-                        }
-                    }
-                    if (!binding.experienceET.getText().toString().isEmpty()) {
-                        experience = Integer.parseInt(binding.experienceET.getText().toString());
-                    }
 
                     try {
                         JsonObject paramObject = new JsonObject();
@@ -127,15 +112,30 @@ public class MainActivity extends AppCompatActivity {
                         paramObject.addProperty("name", nameET);
                         paramObject.addProperty("email", emailET);
                         paramObject.addProperty("phone", phoneET);
-                        paramObject.addProperty("full_address", addressET);
+                        if (!binding.addressET.getText().toString().isEmpty()){
+                            paramObject.addProperty("full_address", binding.addressET.getText().toString());
+                        }
                         paramObject.addProperty("name_of_university", universityET);
                         paramObject.addProperty("graduation_year", Integer.parseInt(graduationYear));
-                        paramObject.addProperty("cgpa", cgpa);
-                        paramObject.addProperty("experience_in_months", experience);
-                        paramObject.addProperty("current_work_place_name", workPlaceET);
+                        if (!binding.cgpaET.getText().toString().isEmpty()) {
+                            if (checkCGPA(binding.cgpaET.getText().toString())) {
+                                paramObject.addProperty("cgpa", Double.parseDouble(binding.cgpaET.getText().toString()));
+                            } else {
+                                binding.cgpaET.setError("CGPA not in range");
+                                return;
+                            }
+                        }
+                        if (!binding.experienceET.getText().toString().isEmpty()) {
+                            paramObject.addProperty("experience_in_months", Integer.parseInt(binding.experienceET.getText().toString()));
+                        }
+                        if (!binding.workPlaceET.getText().toString().isEmpty()){
+                            paramObject.addProperty("current_work_place_name", binding.workPlaceET.getText().toString());
+                        }
                         paramObject.addProperty("applying_in", jobNature);
                         paramObject.addProperty("expected_salary", salary);
-                        paramObject.addProperty("field_buzz_reference", referenceET);
+                        if (!binding.referenceET.getText().toString().isEmpty()){
+                            paramObject.addProperty("field_buzz_reference", binding.referenceET.getText().toString());
+                        }
                         paramObject.addProperty("github_project_url", gitET);
                         JsonObject innerObject = new JsonObject();
                         innerObject.addProperty("tsync_id", sessionManager.getToken());
