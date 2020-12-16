@@ -27,6 +27,11 @@ public class MyApplication extends Application {
         return instance.isNetworkConnected();
     }
 
+    /**
+     * This method is used to check the internet connectivity
+     * @return state of internet connection
+     */
+
     private boolean isNetworkConnected() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

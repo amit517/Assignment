@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String graduationYear = "Select Graduation Year";
     private String jobNature = "Select Job Nature";
-    private int  salary;
+    private int salary;
     private SessionManager sessionManager;
     private MainActivityViewModel mainActivityViewModel;
     private ProgressDialog progressDialog;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onNextButtonClicked() {
         if (MyApplication.hasNetwork()) {
-            if (isSizeOk) {
+            if (isSizeOk) { // Checking if the pdf file size is valid or not
                 String nameET = binding.nameET.getText().toString();
                 String emailET = binding.emailET.getText().toString();
                 String phoneET = binding.phoneET.getText().toString();
@@ -105,14 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (checkField(nameET, emailET, phoneET, universityET, gitET, salaryString)) {
 
-
                     try {
                         JsonObject paramObject = new JsonObject();
                         paramObject.addProperty("tsync_id", sessionManager.getToken());
                         paramObject.addProperty("name", nameET);
                         paramObject.addProperty("email", emailET);
                         paramObject.addProperty("phone", phoneET);
-                        if (!binding.addressET.getText().toString().isEmpty()){
+                        if (!binding.addressET.getText().toString().isEmpty()) {
                             paramObject.addProperty("full_address", binding.addressET.getText().toString());
                         }
                         paramObject.addProperty("name_of_university", universityET);
@@ -128,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
                         if (!binding.experienceET.getText().toString().isEmpty()) {
                             paramObject.addProperty("experience_in_months", Integer.parseInt(binding.experienceET.getText().toString()));
                         }
-                        if (!binding.workPlaceET.getText().toString().isEmpty()){
+                        if (!binding.workPlaceET.getText().toString().isEmpty()) {
                             paramObject.addProperty("current_work_place_name", binding.workPlaceET.getText().toString());
                         }
                         paramObject.addProperty("applying_in", jobNature);
                         paramObject.addProperty("expected_salary", salary);
-                        if (!binding.referenceET.getText().toString().isEmpty()){
+                        if (!binding.referenceET.getText().toString().isEmpty()) {
                             paramObject.addProperty("field_buzz_reference", binding.referenceET.getText().toString());
                         }
                         paramObject.addProperty("github_project_url", gitET);
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         innerObject.addProperty("tsync_id", sessionManager.getToken());
                         paramObject.add("cv_file", innerObject);
                         paramObject.addProperty("on_spot_update_time", System.currentTimeMillis() / 1000L);
-
+                        /* Storing the first creation time in the Sharedpreference */
                         if (!sessionManager.getHasUpdated()) {
                             sessionManager.setHasUpdated(true);
                             long unixTime = System.currentTimeMillis() / 1000L;
@@ -304,6 +303,15 @@ public class MainActivity extends AppCompatActivity {
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
     }
 
+    /**
+     * @param nameET
+     * @param emailET
+     * @param phoneET
+     * @param universityET
+     * @param gitET
+     * @param salaryString
+     * @return true if all the field are valid
+     */
     private boolean checkField(String nameET, String emailET, String phoneET, String universityET, String gitET, String salaryString) {
         return !nameET.isEmpty()
                 && !emailET.isEmpty()
@@ -316,6 +324,9 @@ public class MainActivity extends AppCompatActivity {
                 && !checkSalary(salaryString);
     }
 
+    /**
+     * @return the graduation year in integer
+     */
     private int getGraduationYear() {
         if (!graduationYear.equals("Select Graduation Year")) {
             return Integer.parseInt(graduationYear);
@@ -324,11 +335,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * @param s take input cgpa as string
+     * @return if the cgpa is on range or not
+     */
     private boolean checkCGPA(String s) {
         double num = Double.parseDouble(s);
         return (num >= 2 && num <= 4);
     }
 
+    /**
+     * this method check if the salary field is empty or not
+     *
+     * @param salaryString
+     * @return true if salary is empty
+     */
     private boolean checkSalary(String salaryString) {
 
         if (salaryString.isEmpty()) {
@@ -339,6 +360,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validate the salary range
+     *
+     * @param salary
+     * @return true if the salary range is in the valid range
+     */
     private boolean checkSalaryRange(int salary) {
         return (salary >= 15000 && salary <= 60000);
     }

@@ -113,6 +113,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Checking the email and password fields
+     * @param email
+     * @param password
+     * @return
+     */
     private boolean checkField(String email, String password) {
         return !email.isEmpty() && !password.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length() > 6;
     }

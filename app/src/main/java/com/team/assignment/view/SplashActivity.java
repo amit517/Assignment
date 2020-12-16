@@ -17,6 +17,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
+        /**
+         * Check if the user is logged in or not
+         */
         if (sessionManager.getIsLogedIn()) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)

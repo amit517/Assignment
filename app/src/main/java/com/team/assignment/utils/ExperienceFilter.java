@@ -6,6 +6,10 @@ import android.text.Spanned;
 /**
  * Created by Amit on 11,December,2020
  */
+
+/**
+ * This class is used to specify the experience range. It will only let the user to input in between 0-100
+ */
 public class ExperienceFilter implements InputFilter {
     private int mIntMin, mIntMax;
 
